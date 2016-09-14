@@ -1,19 +1,6 @@
 var http = require('http'),
-    express = require("express"),
-    logger = require("morgan"),
-    cookieParser = require("cookie-parser"),
-    bodyParser = require("body-parser")
-    passwordHash = require('password-hash'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    expressSession = require('express-session'),
-    dateFormat = require("dateformat"),
-    now = new Date(),
-    nodemailer = require('nodemailer'),
-    smtpTransport = require('nodemailer-smtp-transport'),
-    flash = require('connect-flash');
+    express = require("express");
     
-var environment = process.env.ENVIRONMENT || "production";
 
 var routes = require('./routes/index');
 var signin = require('./routes/signin');
@@ -22,9 +9,6 @@ var feedbacks = require('./routes/feedbacks');
 var app = express();
 // Trusting Openshift proxy
 app.enable('trust proxy');
-
-app.set("env", environment);
-app.set("logger", logger);
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -40,18 +24,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(expressSession({
-  secret: 'testCat',
-  resave: true,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+
 
 app.get('/', function(req, res) {
   response.render('index');
