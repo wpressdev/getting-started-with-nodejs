@@ -1,8 +1,10 @@
+var http = require('http');
 var cool = require('cool-ascii-faces');
 var express = require('express');
-var app = module.exports = express();
+var app = express();
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', process.env.PORT || 3000);
+app.use(express.logger());
 
 app.use(express.static(__dirname + '/public'));
 
@@ -10,18 +12,17 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.get('/', function(req, res){
-  res.render('home', {sayHelloTo: 'world'});
+app.get('/', function(request, response) {
+  console.log('[support dash] processing get request')
+  response.send('Hello World 2!');
 });
 
 app.get('/cool', function(request, response) {
   response.send(cool());
 });
 
-if(!module.parent){
-  app.listen(process.env.PORT || 3000, function(){
-    console.log('up and running');
-  });
-}
+app.listen(process.env.PORT, function () {
+  console.log('***** exp listening on port: ' + process.env.PORT);
+});
 
 
